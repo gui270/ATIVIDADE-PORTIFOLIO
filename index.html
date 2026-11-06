@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfólio de Guilherme Andrade dos Santos, estudante de Desenvolvimento de Sistemas no SENAI.">
+  <title>Guilherme.desenvolvedor</title>
+  <style>
+    /* ===== Cores (para mudar o destaque, troque --destaque) ===== */
+    :root {
+      --fundo: #050505;
+      --fundo-card: #111111;
+      --borda: #232323;
+      --texto: #e5e5e5;
+      --texto-suave: #9ca3af;
+      --destaque: #22d3ee;
+      --destaque-escuro: #0891b2;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(ellipse at 12% 8%, rgba(8, 145, 178, 0.12), transparent 34rem),
+        var(--fundo);
+      color: var(--texto);
+      line-height: 1.7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -35%;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 25% 35%, rgba(8, 145, 178, 0.12), transparent 28%),
+        radial-gradient(ellipse at 75% 65%, rgba(34, 211, 238, 0.07), transparent 30%);
+      animation: luz-ambiente 24s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+    header, main, footer { position: relative; z-index: 1; }
+    @keyframes luz-ambiente {
+      from { transform: translate3d(-2%, -1%, 0) scale(1); }
+      to { transform: translate3d(2%, 1%, 0) scale(1.05); }
+    }
+
+    a { color: inherit; }
+    .dest { color: var(--destaque); }
+    :focus-visible {
+      outline: 2px solid var(--destaque);
+      outline-offset: 4px;
+    }
+
+    /* ===== Menu (abas) ===== */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(5, 5, 5, 0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--borda);
+    }
+    .menu {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: 0.5px;
+      background: none;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .logo-img {
+      width: 42px;
+      height: 42px;
+      object-fit: cover;
+      object-position: center;
+      border: 1px solid rgba(34, 211, 238, 0.55);
+      border-radius: 12px;
+      background: #0b1820;
+      box-shadow: 0 0 18px rgba(34, 211, 238, 0.16);
+    }
+    .logo-nome { color: #fff; }
+    nav ul { list-style: none; display: flex; gap: 6px; }
+    nav button {
+      background: none;
+      border: none;
+      color: var(--texto-suave);
+      font-size: 0.95rem;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: color 0.2s, background 0.2s, transform 0.2s;
+    }
+    nav button:hover { color: #fff; background: #1a1a1a; transform: translateY(-1px); }
+    nav button.ativo {
+      color: var(--destaque);
+      background: #0c1c20;
+    }
+
+    /* ===== Abas (cada seção) ===== */
+    main { flex: 1; }
+    .aba {
+      display: none;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 70px;
+      animation: entrar 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+    .aba.ativa { display: block; }
+    @keyframes entrar {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .titulo-secao {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+    .titulo-secao span { color: var(--destaque); }
+    .sub-secao {
+      color: var(--texto-suave);
+      margin-bottom: 36px;
+      max-width: 650px;
+    }
+
+    /* ===== Botões ===== */
+    .botao {
+      display: inline-block;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      cursor: pointer;
+      border: 2px solid var(--destaque);
+      background: var(--destaque);
+      color: #000;
+      transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .botao:hover {
+      background: transparent;
+      color: var(--destaque);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(34, 211, 238, 0.16);
+    }
+    .botao.contorno { background: transparent; color: var(--destaque); }
+    .botao.contorno:hover { background: var(--destaque); color: #000; }
+    .botao.pequeno { padding: 8px 16px; font-size: 0.85rem; }
+
+    /* ===== INÍCIO ===== */
+    .hero {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 40px;
+      align-items: center;
+      padding-top: 30px;
+    }
+    .etiqueta {
+      display: inline-block;
+      border: 1px solid var(--destaque-escuro);
+      color: var(--destaque);
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      line-height: 1.15;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .hero h1 span { color: var(--destaque); }
+    .hero .cargo {
+      font-size: 1.2rem;
+      color: var(--texto-suave);
+      margin-bottom: 18px;
+    }
+    .hero p.texto { max-width: 560px; margin-bottom: 28px; }
+    .hero .botoes { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .avatar-area { display: flex; justify-content: center; }
+    .avatar {
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      border: 3px solid var(--destaque);
+      box-shadow: 0 0 40px rgba(34, 211, 238, 0.25);
+      background: radial-gradient(circle at 30% 30%, #12303a, #0a0a0a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4.5rem;
+      font-weight: 700;
+      color: var(--destaque);
+      overflow: hidden;
+      animation: flutuar 6s ease-in-out infinite;
+    }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
+    @keyframes flutuar {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-9px); }
+    }
+
+    .numeros {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-top: 56px;
+    }
+    .aba.ativa .grade-2 > .card,
+    .aba.ativa .grade-3 > .card,
+    .aba.ativa .numeros > .numero {
+      animation: subir-suave 0.55s both;
+    }
+    .aba.ativa .grade-2 > :nth-child(2),
+    .aba.ativa .grade-3 > :nth-child(2),
+    .aba.ativa .numeros > :nth-child(2) { animation-delay: 80ms; }
+    .aba.ativa .grade-2 > :nth-child(3),
+    .aba.ativa .grade-3 > :nth-child(3),
+    .aba.ativa .numeros > :nth-child(3) { animation-delay: 160ms; }
+    .aba.ativa .grade-2 > :nth-child(4),
+    .aba.ativa .grade-3 > :nth-child(4),
+    .aba.ativa .numeros > :nth-child(4) { animation-delay: 240ms; }
+    @keyframes subir-suave {
+      from { opacity: 0; filter: blur(4px); }
+      to { opacity: 1; filter: blur(0); }
+    }
+    .numero {
+      background: var(--fundo-card);
+      border: 1px solid var(--borda);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .numero:hover { border-color: var(--destaque-escuro); transform: translateY(-3px); }
+    .numero strong {
+      display: block;
+      font-size: 2rem;
+      color: var(--destaque);
+    }
+    .numero span { color: var(--texto-suave); font-size: 0.9rem; }
+
+    /* ===== Cards ===== */
+    .card {
+      background: var(--fundo-card);
+      border: 1px solid var(--borda);
+      border-radius: 14px;
+      padding: 26px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    }
+    .card:hover {
+      border-color: var(--destaque-escuro);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.24);
+    }
+    .card h3 { color: #fff; margin-bottom: 10px; font-size: 1.15rem; }
+    .card h3 span { color: var(--destaque); }
+    .card p { color: var(--texto-suave); font-size: 0.95rem; margin-bottom: 14px; }
+    .grade-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .grade-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    /* ===== SOBRE ===== */
+    .sobre-texto p { margin-bottom: 16px; max-width: 760px; }
+    .sobre-texto strong { color: var(--destaque); font-weight: 600; }
+    .bloco-titulo {
+      font-size: 1.3rem;
+      color: #fff;
+      margin: 44px 0 18px;
+    }
+    .bloco-titulo span { color: var(--destaque); }
+
+    .linha-tempo {
+      border-left: 2px solid var(--borda);
+      padding-left: 24px;
+      margin-left: 6px;
+    }
+    .item-tempo { position: relative; margin-bottom: 26px; }
+    .item-tempo::before {
+      content: "";
+      position: absolute;
+      left: -31px;
+      top: 8px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--destaque);
+      box-shadow: 0 0 10px var(--destaque);
+    }
+    .item-tempo h4 { color: #fff; font-size: 1.05rem; }
+    .item-tempo .quando { color: var(--destaque); font-size: 0.85rem; }
+    .item-tempo p { color: var(--texto-suave); font-size: 0.95rem; }
+
+    /* ===== HABILIDADES ===== */
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+    .chip {
+      background: #0c1c20;
+      border: 1px solid var(--destaque-escuro);
+      color: var(--destaque);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.88rem;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    }
+    .chip:hover { border-color: var(--destaque); transform: translateY(-2px); }
+    .chip.neutro {
+      background: #181818;
+      border-color: var(--borda);
+      color: var(--texto);
+    }
+
+    /* ===== PROJETOS ===== */
+    .projeto { display: flex; flex-direction: column; }
+    .projeto .tipo {
+      color: var(--destaque);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+    .projeto ul {
+      list-style: none;
+      margin-bottom: 18px;
+      flex: 1;
+    }
+    .projeto li {
+      color: var(--texto-suave);
+      font-size: 0.92rem;
+      padding-left: 18px;
+      position: relative;
+      margin-bottom: 6px;
+    }
+    .projeto li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--destaque);
+    }
+    .projeto .chips { margin-bottom: 20px; }
+    .projeto .chip { font-size: 0.78rem; padding: 4px 10px; }
+
+    /* ===== CONTATO ===== */
+    .contato-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-decoration: none;
+    }
+    .contato-card .icone {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: #0c1c20;
+      border: 1px solid var(--destaque-escuro);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--destaque);
+      flex-shrink: 0;
+    }
+    .contato-card h3 { margin-bottom: 2px; }
+    .contato-card p { margin: 0; word-break: break-all; }
+
+    footer {
+      text-align: center;
+      padding: 24px 20px;
+      color: var(--texto-suave);
+      font-size: 0.88rem;
+      border-top: 1px solid var(--borda);
+    }
+
+    /* ===== Celular ===== */
+    @media (max-width: 800px) {
+      .hero { grid-template-columns: 1fr; text-align: center; }
+      .hero p.texto { margin-left: auto; margin-right: auto; }
+      .hero .botoes { justify-content: center; }
+      .avatar-area { order: -1; }
+      .avatar { width: 170px; height: 170px; font-size: 3.2rem; }
+      .hero h1 { font-size: 2.2rem; }
+    }
+    @media (max-width: 640px) {
+      .menu { flex-direction: column; gap: 8px; padding: 10px 12px; }
+      nav { width: 100%; overflow-x: auto; }
+      nav ul { justify-content: flex-start; min-width: max-content; }
+      nav button { padding: 8px 12px; font-size: 0.9rem; }
+      .aba { padding: 40px 16px 50px; }
+      .titulo-secao { font-size: 1.6rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== MENU COM ABAS ===== -->
+  <header>
+    <div class="menu">
+      <button class="logo" data-aba="inicio">
+        <img src="assets/logo.png" alt="" class="logo-img">
+        <span class="logo-nome">Guilherme</span>
+      </button>
+      <nav>
+        <ul>
+          <li><button data-aba="inicio">Início</button></li>
+          <li><button data-aba="sobre">Sobre</button></li>
+          <li><button data-aba="habilidades">Habilidades</button></li>
+          <li><button data-aba="projetos">Projetos</button></li>
+          <li><button data-aba="contato">Contato</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===== ABA 1: INÍCIO ===== -->
+    <section id="inicio" class="aba">
+      <div class="hero">
+        <div>
+          <span class="etiqueta">● Disponível para estágio e vaga júnior</span>
+          <h1>Olá, eu sou <span>Guilherme Andrade</span></h1>
+          <p class="cargo">Estudante de <span class="dest">Desenvolvimento de Sistemas</span> | SENAI</p>
+          <p class="texto">
+            Apaixonado por <span class="dest">programação de aplicativos</span>,
+            banco de dados e tecnologia. Busco minha primeira oportunidade na área
+            para aplicar o que aprendi, evoluir com uma equipe e entregar soluções de qualidade.
+          </p>
+          <div class="botoes">
+            <button class="botao" data-aba="projetos">Ver projetos</button>
+            <button class="botao contorno" data-aba="contato">Falar comigo</button>
+          </div>
+        </div>
+        <div class="avatar-area">
+          <!-- Para usar sua foto: coloque foto.jpg na mesma pasta e troque "GA" por <img src="foto.jpg" alt="Guilherme Andrade"> -->
+          <div class="avatar">GA</div>
+        </div>
+      </div>
+
+      <div class="numeros">
+        <div class="numero"><strong>2º</strong><span>semestre de Desenvolvimento de Sistemas</span></div>
+        <div class="numero"><strong>3</strong><span>projetos publicados</span></div>
+        <div class="numero"><strong>3</strong><span>formações e cursos</span></div>
+        <div class="numero"><strong>IA</strong><span>Gemini Academy universitários</span></div>
+      </div>
+    </section>
+
+    <!-- ===== ABA 2: SOBRE ===== -->
+    <section id="sobre" class="aba">
+      <h2 class="titulo-secao">Quem <span>sou eu</span></h2>
+      <p class="sub-secao">Minha trajetória, minha formação e o que eu busco na carreira.</p>
+
+      <div class="sobre-texto">
+        <p>
+          Sou <strong>Guilherme Andrade dos Santos</strong>, estudante do
+          <strong>2º semestre de Desenvolvimento de Sistemas</strong> no SENAI.
+          Durante o curso, trabalhei com modelagem e administração de banco de dados,
+          desde o desenho das entidades até relatórios, controle de acesso e backup.
+        </p>
+        <p>
+          Tenho interesse especial em <strong>programação de aplicativos</strong> e em
+          desenvolvimento web. Também fiz o curso <strong>Gemini Academy para universitários</strong>,
+          que me deu uma base sobre o uso responsável de Inteligência Artificial no dia a dia da tecnologia.
+        </p>
+        <p>
+          <strong>Meu objetivo:</strong> conquistar uma vaga de estágio ou desenvolvedor júnior,
+          onde eu possa contribuir com o time, aprender com profissionais mais experientes
+          e crescer na carreira de desenvolvimento.
+        </p>
+      </div>
+
+      <h3 class="bloco-titulo">Formação e <span>cursos</span></h3>
+      <div class="linha-tempo">
+        <div class="item-tempo">
+          <span class="quando">Em andamento</span>
+          <h4>Desenvolvimento de Sistemas</h4>
+          <p>SENAI | 2º semestre. Banco de dados, modelagem, SQL e desenvolvimento web.</p>
+        </div>
+        <div class="item-tempo">
+          <span class="quando">Concluído</span>
+          <h4>Gemini Academy para Universitários</h4>
+          <p>Curso com foco em Inteligência Artificial generativa e seu uso prático.</p>
+        </div>
+        <div class="item-tempo">
+          <span class="quando">Concluído</span>
+          <h4>Letramento Digital</h4>
+          <p>SENAI | Base de uso de ferramentas digitais e tecnologia.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ABA 3: HABILIDADES ===== -->
+    <section id="habilidades" class="aba">
+      <h2 class="titulo-secao">Minhas <span>habilidades</span></h2>
+      <p class="sub-secao">Tecnologias e competências que estudei e apliquei nos projetos do curso.</p>
+
+      <div class="grade-2">
+        <div class="card">
+          <h3>Desenvolvimento <span>Web</span></h3>
+          <p>Criação de páginas e aplicações para navegador com interfaces responsivas e interativas.</p>
+          <div class="chips">
+            <span class="chip">HTML5</span>
+            <span class="chip">CSS3</span>
+            <span class="chip">JavaScript</span>
+            <span class="chip">Design responsivo</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Banco de <span>Dados</span></h3>
+          <p>Do projeto das tabelas até a consulta e a segurança dos dados.</p>
+          <div class="chips">
+            <span class="chip">SQL</span>
+            <span class="chip">MySQL</span>
+            <span class="chip">MySQL Workbench</span>
+            <span class="chip">Modelagem DER</span>
+            <span class="chip">Normalização</span>
+            <span class="chip">JOIN</span>
+            <span class="chip">GROUP BY / HAVING</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Segurança e <span>Backup</span></h3>
+          <p>Proteção e recuperação de banco de dados.</p>
+          <div class="chips">
+            <span class="chip">Perfis de acesso</span>
+            <span class="chip">Menor privilégio</span>
+            <span class="chip">Backup</span>
+            <span class="chip">Restauração</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Ferramentas</h3>
+          <p>Versionamento e publicação de projetos.</p>
+          <div class="chips">
+            <span class="chip">Git</span>
+            <span class="chip">GitHub</span>
+            <span class="chip">Vercel</span>
+            <span class="chip">IA generativa</span>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="bloco-titulo">Competências <span>pessoais</span></h3>
+      <div class="chips">
+        <span class="chip neutro">Trabalho em equipe</span>
+        <span class="chip neutro">Resolução de problemas</span>
+        <span class="chip neutro">Aprendizado rápido</span>
+        <span class="chip neutro">Organização</span>
+        <span class="chip neutro">Comunicação</span>
+      </div>
+    </section>
+
+    <!-- ===== ABA 4: PROJETOS ===== -->
+    <section id="projetos" class="aba">
+      <h2 class="titulo-secao">Meus <span>projetos</span></h2>
+      <p class="sub-secao">Trabalhos feitos durante o curso. Clique em "Ver no GitHub" para abrir o código em outra aba.</p>
+
+      <div class="grade-3">
+
+        <div class="card projeto">
+          <span class="tipo">Banco de dados</span>
+          <h3>TechShop</h3>
+          <p>Banco de dados completo de uma loja de tecnologia, construído em etapas.</p>
+          <ul>
+            <li>Modelagem com DER e modelo lógico</li>
+            <li>Normalização até a 3FN</li>
+            <li>Tabelas com chave estrangeira e índice</li>
+            <li>Consultas com JOIN e relatórios gerenciais</li>
+            <li>Perfis de acesso, backup e restauração</li>
+          </ul>
+          <div class="chips">
+            <span class="chip">MySQL</span>
+            <span class="chip">SQL</span>
+            <span class="chip">Modelagem</span>
+          </div>
+          <!-- Troque o link pelo do seu repositório -->
+          <a class="botao pequeno" href="https://github.com/SEU-USUARIO/techshop" target="_blank" rel="noopener">Ver no GitHub ↗</a>
+        </div>
+
+        <div class="card projeto">
+          <span class="tipo">Trabalho em grupo</span>
+          <h3>Estoque de Peças</h3>
+          <p>Sistema de controle de estoque desenvolvido em equipe.</p>
+          <ul>
+            <li>Modelo físico no MySQL Workbench</li>
+            <li>Normalização até a 4FN</li>
+            <li>Fornecedores, funcionários, peças e histórico de movimentação</li>
+            <li>Script .sql gerado por Forward Engineering</li>
+          </ul>
+          <div class="chips">
+            <span class="chip">MySQL Workbench</span>
+            <span class="chip">Normalização</span>
+            <span class="chip">Equipe</span>
+          </div>
+          <!-- Troque o link pelo do seu repositório -->
+          <a class="botao pequeno" href="https://github.com/SEU-USUARIO/estoque-pecas" target="_blank" rel="noopener">Ver no GitHub ↗</a>
+        </div>
+
+        <div class="card projeto">
+          <span class="tipo">Desenvolvimento web</span>
+          <h3>Portfólio Pessoal</h3>
+          <p>Este site, criado para apresentar minhas competências e projetos.</p>
+          <ul>
+            <li>Layout responsivo para celular e computador</li>
+            <li>Navegação por abas</li>
+            <li>Código versionado no GitHub</li>
+            <li>Publicado online no Vercel</li>
+          </ul>
+          <div class="chips">
+            <span class="chip">HTML</span>
+            <span class="chip">CSS</span>
+            <span class="chip">Vercel</span>
+          </div>
+          <!-- Troque o link pelo do seu repositório -->
+          <a class="botao pequeno" href="https://github.com/SEU-USUARIO/portfolio" target="_blank" rel="noopener">Ver no GitHub ↗</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== ABA 5: CONTATO ===== -->
+    <section id="contato" class="aba">
+      <h2 class="titulo-secao">Vamos <span>conversar?</span></h2>
+      <p class="sub-secao">Estou aberto a oportunidades de estágio e vagas juniores. Escolha o melhor canal.</p>
+
+      <div class="grade-3">
+        <a class="card contato-card" href="mailto:Guilherme2008hotmail@gmail.com">
+          <div class="icone">@</div>
+          <div>
+            <h3>E-mail</h3>
+            <p>Guilherme2008hotmail@gmail.com</p>
+          </div>
+        </a>
+
+        <!-- Troque SEU-PERFIL pelo final do seu link do LinkedIn -->
+        <a class="card contato-card" href="https://www.linkedin.com/in/SEU-PERFIL" target="_blank" rel="noopener">
+          <div class="icone">in</div>
+          <div>
+            <h3>LinkedIn</h3>
+            <p>Conecte-se comigo ↗</p>
+          </div>
+        </a>
+
+        <!-- Troque SEU-USUARIO pelo seu usuário do GitHub -->
+        <a class="card contato-card" href="https://github.com/SEU-USUARIO" target="_blank" rel="noopener">
+          <div class="icone">&lt;/&gt;</div>
+          <div>
+            <h3>GitHub</h3>
+            <p>Veja meu código ↗</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Guilherme Andrade dos Santos. Feito com HTML, CSS e JavaScript.</p>
+  </footer>
+
+  <!-- ===== JavaScript das abas ===== -->
+  <script>
+    const abas = document.querySelectorAll('.aba');
+    const botoes = document.querySelectorAll('[data-aba]');
+
+    function abrirAba(id) {
+      // se a aba não existir, volta para o início
+      if (!document.getElementById(id)) { id = 'inicio'; }
+
+      abas.forEach(function (aba) {
+        aba.classList.toggle('ativa', aba.id === id);
+      });
+
+      // destaca o botão do menu da aba aberta
+      document.querySelectorAll('nav [data-aba]').forEach(function (b) {
+        b.classList.toggle('ativo', b.dataset.aba === id);
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      history.replaceState(null, '', '#' + id);
+    }
+
+    botoes.forEach(function (botao) {
+      botao.addEventListener('click', function () {
+        abrirAba(botao.dataset.aba);
+      });
+    });
+
+    // abre a aba do endereço (#projetos, por exemplo) ou o início
+    abrirAba(location.hash.replace('#', '') || 'inicio');
+  </script>
+
+</body>
+</html>
