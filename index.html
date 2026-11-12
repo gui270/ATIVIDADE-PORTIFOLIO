@@ -175,6 +175,17 @@
       align-items: center;
       padding-top: 30px;
     }
+    .hero-copy > * {
+      animation: revelar-conteudo 0.6s both;
+    }
+    .hero-copy > :nth-child(2) { animation-delay: 80ms; }
+    .hero-copy > :nth-child(3) { animation-delay: 160ms; }
+    .hero-copy > :nth-child(4) { animation-delay: 240ms; }
+    .hero-copy > :nth-child(5) { animation-delay: 320ms; }
+    @keyframes revelar-conteudo {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     .etiqueta {
       display: inline-block;
       border: 1px solid var(--destaque-escuro);
@@ -183,6 +194,17 @@
       border-radius: 20px;
       font-size: 0.85rem;
       margin-bottom: 20px;
+    }
+    .etiqueta::before {
+      content: "";
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin-right: 8px;
+      border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 10px rgba(74, 222, 128, 0.6);
+      vertical-align: 1px;
     }
     .hero h1 {
       font-size: 3rem;
@@ -201,6 +223,7 @@
 
     .avatar-area { display: flex; justify-content: center; }
     .avatar {
+      position: relative;
       width: 240px;
       height: 240px;
       border-radius: 50%;
@@ -215,6 +238,18 @@
       color: var(--destaque);
       overflow: hidden;
       animation: flutuar 6s ease-in-out infinite;
+    }
+    .avatar::before {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border: 1px solid rgba(34, 211, 238, 0.25);
+      border-radius: 50%;
+      animation: pulso-avatar 3s ease-in-out infinite;
+    }
+    @keyframes pulso-avatar {
+      0%, 100% { transform: scale(1); opacity: 0.45; }
+      50% { transform: scale(1.06); opacity: 1; }
     }
     .avatar img { width: 100%; height: 100%; object-fit: cover; }
     @keyframes flutuar {
@@ -293,6 +328,52 @@
     /* ===== SOBRE ===== */
     .sobre-texto p { margin-bottom: 16px; max-width: 760px; }
     .sobre-texto strong { color: var(--destaque); font-weight: 600; }
+    .sobre-apresentacao {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(240px, 0.8fr);
+      gap: 20px;
+      align-items: stretch;
+    }
+    .sobre-resumo {
+      border-left: 3px solid var(--destaque);
+    }
+    .sobre-resumo p:last-child { margin-bottom: 0; }
+    .sobre-identificador {
+      display: block;
+      color: var(--destaque);
+      font: 600 0.85rem Consolas, "Courier New", monospace;
+      margin-bottom: 18px;
+    }
+    .sobre-pontos {
+      display: grid;
+      gap: 12px;
+    }
+    .sobre-ponto {
+      padding: 18px;
+      border: 1px solid var(--borda);
+      border-radius: 12px;
+      background: rgba(17, 17, 17, 0.82);
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .sobre-ponto:hover {
+      border-color: var(--destaque-escuro);
+      transform: translateX(4px);
+    }
+    .sobre-ponto strong {
+      display: block;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+    .sobre-ponto span {
+      color: var(--texto-suave);
+      font-size: 0.9rem;
+    }
+    .aba.ativa .sobre-resumo,
+    .aba.ativa .sobre-ponto {
+      animation: revelar-conteudo 0.6s both;
+    }
+    .aba.ativa .sobre-ponto:nth-child(2) { animation-delay: 100ms; }
+    .aba.ativa .sobre-ponto:nth-child(3) { animation-delay: 200ms; }
     .bloco-titulo {
       font-size: 1.3rem;
       color: #fff;
@@ -338,9 +419,40 @@
       border-color: var(--borda);
       color: var(--texto);
     }
+    .habilidade-card {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .habilidade-categoria {
+      color: var(--destaque);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .habilidade-card .chips { margin-top: auto; padding-top: 6px; }
 
     /* ===== PROJETOS ===== */
     .projeto { display: flex; flex-direction: column; }
+    .projeto-preview {
+      display: block;
+      margin: -4px -4px 20px;
+      overflow: hidden;
+      border: 1px solid var(--borda);
+      border-radius: 10px;
+      background: #080808;
+    }
+    .projeto-preview img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+    .projeto-preview:hover img { transform: scale(1.03); }
+    .projeto .projeto-acoes { margin-top: auto; }
     .projeto .tipo {
       color: var(--destaque);
       font-size: 0.8rem;
@@ -377,20 +489,51 @@
       text-decoration: none;
     }
     .contato-card .icone {
-      width: 52px;
-      height: 52px;
-      border-radius: 12px;
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
       background: #0c1c20;
       border: 1px solid var(--destaque-escuro);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 700;
       color: var(--destaque);
       flex-shrink: 0;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
     }
-    .contato-card h3 { margin-bottom: 2px; }
-    .contato-card p { margin: 0; word-break: break-all; }
+    .contato-card .icone svg { width: 32px; height: 32px; fill: currentColor; }
+    .contato-card:hover .icone { background: var(--destaque); color: #000; transform: scale(1.05); }
+    .contato-card h3 { margin: 0; }
+    .contato-form {
+      max-width: 760px;
+      margin-top: 32px;
+    }
+    .contato-form h3 { margin-bottom: 6px; }
+    .contato-form > p { color: var(--texto-suave); margin-bottom: 22px; }
+    .formulario-contato {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .campo-contato { display: flex; flex-direction: column; gap: 6px; }
+    .campo-contato.mensagem { grid-column: 1 / -1; }
+    .campo-contato label { color: #fff; font-weight: 600; font-size: 0.92rem; }
+    .campo-contato input,
+    .campo-contato textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--borda);
+      border-radius: 8px;
+      background: #080808;
+      color: var(--texto);
+      font: inherit;
+    }
+    .campo-contato textarea { min-height: 150px; resize: vertical; }
+    .formulario-contato .botao { justify-self: start; }
+    @media (max-width: 560px) {
+      .formulario-contato { grid-template-columns: 1fr; }
+      .campo-contato.mensagem { grid-column: auto; }
+    }
 
     footer {
       text-align: center;
@@ -408,6 +551,7 @@
       .avatar-area { order: -1; }
       .avatar { width: 170px; height: 170px; font-size: 3.2rem; }
       .hero h1 { font-size: 2.2rem; }
+      .sobre-apresentacao { grid-template-columns: 1fr; }
     }
     @media (max-width: 640px) {
       .menu { flex-direction: column; gap: 8px; padding: 10px 12px; }
@@ -454,14 +598,16 @@
     <!-- ===== ABA 1: INÍCIO ===== -->
     <section id="inicio" class="aba">
       <div class="hero">
-        <div>
-          <span class="etiqueta">● Disponível para estágio e vaga júnior</span>
+        <div class="hero-copy">
+          <span class="etiqueta">Disponível para estágio e vaga júnior</span>
           <h1>Olá, eu sou <span>Guilherme Andrade</span></h1>
           <p class="cargo">Estudante de <span class="dest">Desenvolvimento de Sistemas</span> | SENAI</p>
           <p class="texto">
-            Apaixonado por <span class="dest">programação de aplicativos</span>,
-            banco de dados e tecnologia. Busco minha primeira oportunidade na área
-            para aplicar o que aprendi, evoluir com uma equipe e entregar soluções de qualidade.
+            Estou no início da minha jornada na tecnologia, com interesse em
+            <span class="dest">programação e desenvolvimento web</span>. Gosto de aprender
+            colocando a mão no código, explorar novas ideias e transformar cada desafio em
+            uma oportunidade para evoluir. Busco minha primeira oportunidade para crescer
+            junto com uma equipe e contribuir com dedicação e curiosidade.
           </p>
           <div class="botoes">
             <button class="botao" data-aba="projetos">Ver projetos</button>
@@ -476,7 +622,7 @@
 
       <div class="numeros">
         <div class="numero"><strong>2º</strong><span>semestre de Desenvolvimento de Sistemas</span></div>
-        <div class="numero"><strong>3</strong><span>projetos publicados</span></div>
+        <div class="numero"><strong>4</strong><span>projetos desenvolvidos</span></div>
         <div class="numero"><strong>3</strong><span>formações e cursos</span></div>
         <div class="numero"><strong>IA</strong><span>Gemini Academy universitários</span></div>
       </div>
@@ -484,26 +630,45 @@
 
     <!-- ===== ABA 2: SOBRE ===== -->
     <section id="sobre" class="aba">
-      <h2 class="titulo-secao">Quem <span>sou eu</span></h2>
-      <p class="sub-secao">Minha trajetória, minha formação e o que eu busco na carreira.</p>
+      <h2 class="titulo-secao">Sobre <span>mim</span></h2>
+      <p class="sub-secao">Uma trajetória em construção, movida por curiosidade, prática e vontade de crescer.</p>
 
-      <div class="sobre-texto">
-        <p>
-          Sou <strong>Guilherme Andrade dos Santos</strong>, estudante do
-          <strong>2º semestre de Desenvolvimento de Sistemas</strong> no SENAI.
-          Durante o curso, trabalhei com modelagem e administração de banco de dados,
-          desde o desenho das entidades até relatórios, controle de acesso e backup.
-        </p>
-        <p>
-          Tenho interesse especial em <strong>programação de aplicativos</strong> e em
-          desenvolvimento web. Também fiz o curso <strong>Gemini Academy para universitários</strong>,
-          que me deu uma base sobre o uso responsável de Inteligência Artificial no dia a dia da tecnologia.
-        </p>
-        <p>
-          <strong>Meu objetivo:</strong> conquistar uma vaga de estágio ou desenvolvedor júnior,
-          onde eu possa contribuir com o time, aprender com profissionais mais experientes
-          e crescer na carreira de desenvolvimento.
-        </p>
+      <div class="sobre-apresentacao">
+        <div class="card sobre-resumo sobre-texto">
+          <span class="sobre-identificador">&gt; sobre_mim</span>
+          <p>
+            Sou <strong>Guilherme Andrade dos Santos</strong>, estudante do
+            <strong>2º semestre de Desenvolvimento de Sistemas no SENAI</strong> e estou
+            dando meus primeiros passos na área de tecnologia.
+          </p>
+          <p>
+            Nos estudos, venho praticando desenvolvimento web e banco de dados, criando
+            projetos e aprendendo a resolver problemas com lógica e código. Também concluí
+            o curso <strong>Gemini Academy para Universitários</strong>, que ampliou meu
+            contato com inteligência artificial.
+          </p>
+          <p>
+            Sei que ainda tenho muito a aprender — e é isso que me motiva. Tenho disposição
+            para estudar, receber orientações e transformar conhecimento em prática.
+            Procuro uma oportunidade de estágio para evoluir com uma equipe, assumir desafios
+            e contribuir com dedicação.
+          </p>
+        </div>
+
+        <div class="sobre-pontos" aria-label="O que me motiva">
+          <div class="sobre-ponto">
+            <strong>Aprender sempre</strong>
+            <span>Curiosidade para conhecer ferramentas e ideias novas.</span>
+          </div>
+          <div class="sobre-ponto">
+            <strong>Praticar com projetos</strong>
+            <span>Aprender fazendo e melhorar a cada desafio.</span>
+          </div>
+          <div class="sobre-ponto">
+            <strong>Crescer em equipe</strong>
+            <span>Trocar experiências, ouvir feedback e evoluir junto.</span>
+          </div>
+        </div>
       </div>
 
       <h3 class="bloco-titulo">Formação e <span>cursos</span></h3>
@@ -529,84 +694,110 @@
     <!-- ===== ABA 3: HABILIDADES ===== -->
     <section id="habilidades" class="aba">
       <h2 class="titulo-secao">Minhas <span>habilidades</span></h2>
-      <p class="sub-secao">Tecnologias e competências que estudei e apliquei nos projetos do curso.</p>
+      <p class="sub-secao">Conhecimentos desenvolvidos no curso e aplicados em projetos acadêmicos.</p>
 
       <div class="grade-2">
-        <div class="card">
-          <h3>Desenvolvimento <span>Web</span></h3>
-          <p>Criação de páginas e aplicações para navegador com interfaces responsivas e interativas.</p>
+        <div class="card habilidade-card">
+          <span class="habilidade-categoria">Desenvolvimento</span>
+          <h3>Desenvolvimento <span>web</span></h3>
+          <p>Estruturação de páginas com HTML, estilização com CSS e interações básicas com JavaScript.</p>
           <div class="chips">
             <span class="chip">HTML5</span>
             <span class="chip">CSS3</span>
             <span class="chip">JavaScript</span>
-            <span class="chip">Design responsivo</span>
+            <span class="chip">Responsividade</span>
           </div>
         </div>
 
-        <div class="card">
+        <div class="card habilidade-card">
+          <span class="habilidade-categoria">Dados</span>
           <h3>Banco de <span>Dados</span></h3>
-          <p>Do projeto das tabelas até a consulta e a segurança dos dados.</p>
+          <p>Modelagem e organização de dados, criação de consultas e fundamentos de administração de bancos relacionais.</p>
           <div class="chips">
-            <span class="chip">SQL</span>
             <span class="chip">MySQL</span>
-            <span class="chip">MySQL Workbench</span>
-            <span class="chip">Modelagem DER</span>
+            <span class="chip">SQL</span>
+            <span class="chip">Modelagem de dados (DER)</span>
             <span class="chip">Normalização</span>
-            <span class="chip">JOIN</span>
-            <span class="chip">GROUP BY / HAVING</span>
+            <span class="chip">Consultas com JOIN</span>
+            <span class="chip">GROUP BY e HAVING</span>
           </div>
         </div>
 
-        <div class="card">
-          <h3>Segurança e <span>Backup</span></h3>
-          <p>Proteção e recuperação de banco de dados.</p>
-          <div class="chips">
-            <span class="chip">Perfis de acesso</span>
-            <span class="chip">Menor privilégio</span>
-            <span class="chip">Backup</span>
-            <span class="chip">Restauração</span>
-          </div>
-        </div>
-
-        <div class="card">
-          <h3>Ferramentas</h3>
-          <p>Versionamento e publicação de projetos.</p>
+        <div class="card habilidade-card">
+          <span class="habilidade-categoria">Ferramentas</span>
+          <h3>Ferramentas e <span>versionamento</span></h3>
+          <p>Ferramentas usadas para gerenciar versões, trabalhar com bancos de dados e publicar páginas web.</p>
           <div class="chips">
             <span class="chip">Git</span>
             <span class="chip">GitHub</span>
+            <span class="chip">MySQL Workbench</span>
             <span class="chip">Vercel</span>
-            <span class="chip">IA generativa</span>
           </div>
         </div>
-      </div>
 
-      <h3 class="bloco-titulo">Competências <span>pessoais</span></h3>
-      <div class="chips">
-        <span class="chip neutro">Trabalho em equipe</span>
-        <span class="chip neutro">Resolução de problemas</span>
-        <span class="chip neutro">Aprendizado rápido</span>
-        <span class="chip neutro">Organização</span>
-        <span class="chip neutro">Comunicação</span>
+        <div class="card habilidade-card">
+          <span class="habilidade-categoria">No trabalho</span>
+          <h3>Competências <span>profissionais</span></h3>
+          <p>Habilidades importantes para colaborar com uma equipe e evoluir na área de tecnologia.</p>
+          <div class="chips">
+            <span class="chip neutro">Trabalho em equipe</span>
+            <span class="chip neutro">Resolução de problemas</span>
+            <span class="chip neutro">Organização</span>
+            <span class="chip neutro">Comunicação</span>
+            <span class="chip neutro">Aprendizado contínuo</span>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- ===== ABA 4: PROJETOS ===== -->
     <section id="projetos" class="aba">
       <h2 class="titulo-secao">Meus <span>projetos</span></h2>
-      <p class="sub-secao">Trabalhos desenvolvidos durante o curso. Os arquivos ainda não estão disponíveis em repositórios públicos, então não há links externos para acessar o código.</p>
+      <p class="sub-secao">Projetos pessoais e acadêmicos organizados por área, com foco no que desenvolvi e nas tecnologias utilizadas.</p>
 
-      <div class="grade-3">
+      <h3 class="bloco-titulo">Desenvolvimento <span>web</span></h3>
+      <div class="grade-2">
 
         <div class="card projeto">
-          <span class="tipo">Banco de dados</span>
+          <a class="projeto-preview" href="https://deploy-santos.vercel.app/" target="_blank" rel="noopener" aria-label="Abrir o projeto Gerador de tabuada">
+            <img src="assets/tabuada.png" alt="Prévia do Gerador de tabuada, com campo para digitar um número">
+          </a>
+          <span class="tipo">Aplicação web</span>
+          <h3>Gerador de <span>tabuada</span></h3>
+          <p>Aplicação interativa que recebe um número e apresenta sua tabuada.</p>
+          <div class="chips">
+            <span class="chip">HTML</span>
+            <span class="chip">CSS</span>
+            <span class="chip">JavaScript</span>
+          </div>
+          <div class="projeto-acoes">
+            <a class="botao pequeno" href="https://deploy-santos.vercel.app/" target="_blank" rel="noopener">Acessar projeto ↗</a>
+          </div>
+        </div>
+
+        <div class="card projeto">
+          <span class="tipo">Projeto pessoal</span>
+          <h3>Portfólio <span>pessoal</span></h3>
+          <p>Site responsivo com navegação por seções para apresentar minha trajetória, habilidades e projetos.</p>
+          <div class="chips">
+            <span class="chip">HTML</span>
+            <span class="chip">CSS</span>
+            <span class="chip">JavaScript</span>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="bloco-titulo">Banco de <span>dados</span></h3>
+      <div class="grade-2">
+        <div class="card projeto">
+          <span class="tipo">Projeto acadêmico</span>
           <h3>TechShop</h3>
-          <p>Banco de dados completo de uma loja de tecnologia, construído em etapas.</p>
+          <p>Banco de dados para uma loja de tecnologia, desenvolvido desde a modelagem até consultas e relatórios.</p>
           <ul>
             <li>Modelagem com DER e modelo lógico</li>
             <li>Normalização até a 3FN</li>
-            <li>Tabelas com chave estrangeira e índice</li>
-            <li>Consultas com JOIN e relatórios gerenciais</li>
-            <li>Perfis de acesso, backup e restauração</li>
+            <li>Relacionamentos, chaves estrangeiras e índices</li>
+            <li>Consultas com JOIN e relatórios</li>
           </ul>
           <div class="chips">
             <span class="chip">MySQL</span>
@@ -616,35 +807,18 @@
         </div>
 
         <div class="card projeto">
-          <span class="tipo">Trabalho em grupo</span>
+          <span class="tipo">Projeto em equipe</span>
           <h3>Estoque de Peças</h3>
-          <p>Sistema de controle de estoque desenvolvido em equipe.</p>
+          <p>Modelagem de banco de dados para controle de peças, fornecedores, funcionários e movimentações de estoque.</p>
           <ul>
-            <li>Modelo físico no MySQL Workbench</li>
+            <li>Modelo físico criado no MySQL Workbench</li>
             <li>Normalização até a 4FN</li>
-            <li>Fornecedores, funcionários, peças e histórico de movimentação</li>
-            <li>Script .sql gerado por Forward Engineering</li>
+            <li>Script SQL gerado a partir do modelo</li>
           </ul>
           <div class="chips">
             <span class="chip">MySQL Workbench</span>
+            <span class="chip">SQL</span>
             <span class="chip">Normalização</span>
-            <span class="chip">Equipe</span>
-          </div>
-        </div>
-
-        <div class="card projeto">
-          <span class="tipo">Desenvolvimento web</span>
-          <h3>Portfólio Pessoal</h3>
-          <p>Este site, criado para apresentar minhas competências e projetos.</p>
-          <ul>
-            <li>Layout responsivo para celular e computador</li>
-            <li>Navegação por abas</li>
-            <li>Apresentação das minhas competências e projetos</li>
-          </ul>
-          <div class="chips">
-            <span class="chip">HTML</span>
-            <span class="chip">CSS</span>
-            <span class="chip">JavaScript</span>
           </div>
         </div>
 
@@ -657,31 +831,50 @@
       <p class="sub-secao">Estou aberto a oportunidades de estágio e vagas juniores. Escolha o melhor canal.</p>
 
       <div class="grade-3">
-        <a class="card contato-card" href="mailto:Guilherme2008hotmail@gmail.com">
-          <div class="icone">@</div>
-          <div>
-            <h3>E-mail</h3>
-            <p>Guilherme2008hotmail@gmail.com</p>
-          </div>
+        <a class="card contato-card" href="https://wa.me/5571999482680" target="_blank" rel="noopener" aria-label="Conversar pelo WhatsApp">
+          <span class="icone" aria-hidden="true">
+            <svg viewBox="0 0 32 32"><path d="M16.04 3C8.88 3 3.06 8.82 3.06 15.98c0 2.29.6 4.52 1.75 6.5L3 29l6.68-1.75a12.95 12.95 0 0 0 6.36 1.66h.01c7.16 0 12.98-5.82 12.98-12.98 0-3.47-1.35-6.73-3.81-9.19A12.9 12.9 0 0 0 16.04 3Zm0 23.7h-.01c-1.94 0-3.85-.52-5.51-1.51l-.4-.24-3.96 1.04 1.06-3.86-.26-.42a10.7 10.7 0 0 1-1.64-5.73c0-5.91 4.81-10.72 10.73-10.72 2.86 0 5.55 1.12 7.57 3.14a10.65 10.65 0 0 1 3.14 7.58c0 5.91-4.81 10.72-10.72 10.72Zm5.88-8.03c-.32-.16-1.9-.94-2.2-1.05-.3-.11-.51-.16-.73.16-.21.32-.83 1.05-1.02 1.27-.19.21-.38.24-.7.08-.32-.16-1.36-.5-2.6-1.6-.96-.86-1.61-1.91-1.8-2.23-.19-.32-.02-.49.14-.65.14-.14.32-.38.48-.57.16-.19.21-.32.32-.54.11-.22.05-.41-.03-.57-.08-.16-.73-1.75-1-2.39-.26-.62-.52-.54-.73-.55l-.62-.01c-.22 0-.57.08-.86.41-.3.32-1.13 1.1-1.13 2.69 0 1.59 1.16 3.12 1.32 3.33.16.21 2.28 3.48 5.53 4.88.77.33 1.37.53 1.84.68.77.25 1.47.21 2.02.13.62-.09 1.9-.78 2.17-1.54.27-.75.27-1.4.19-1.54-.08-.13-.3-.21-.62-.37Z"/></svg>
+          </span>
+          <h3>WhatsApp</h3>
         </a>
 
-        <!-- Troque SEU-PERFIL pelo final do seu link do LinkedIn -->
-        <a class="card contato-card" href="https://www.linkedin.com/in/SEU-PERFIL" target="_blank" rel="noopener">
-          <div class="icone">in</div>
-          <div>
-            <h3>LinkedIn</h3>
-            <p>Conecte-se comigo ↗</p>
-          </div>
+        <a class="card contato-card" href="mailto:Guilherme2008hotmail@gmail.com" aria-label="Enviar e-mail">
+          <span class="icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5-8-5V6l8 5 8-5v2Z"/></svg>
+          </span>
+          <h3>E-mail</h3>
         </a>
 
-        <!-- Troque SEU-USUARIO pelo seu usuário do GitHub -->
-        <a class="card contato-card" href="https://github.com/SEU-USUARIO" target="_blank" rel="noopener">
-          <div class="icone">&lt;/&gt;</div>
-          <div>
-            <h3>GitHub</h3>
-            <p>Veja meu código ↗</p>
-          </div>
+        <a class="card contato-card" href="https://github.com/" target="_blank" rel="noopener" aria-label="Acessar GitHub">
+          <span class="icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.54v-2.1c-3.1.68-3.76-1.32-3.76-1.32-.5-1.28-1.23-1.62-1.23-1.62-1.01-.69.08-.68.08-.68 1.12.08 1.71 1.15 1.71 1.15.99 1.7 2.59 1.21 3.22.93.1-.72.39-1.21.7-1.49-2.47-.28-5.07-1.24-5.07-5.5 0-1.22.44-2.21 1.15-2.99-.12-.28-.5-1.42.11-2.95 0 0 .94-.3 3.05 1.14a10.6 10.6 0 0 1 5.55 0c2.11-1.44 3.05-1.14 3.05-1.14.61 1.53.23 2.67.11 2.95.72.78 1.15 1.77 1.15 2.99 0 4.27-2.6 5.21-5.08 5.49.4.35.75 1.02.75 2.06v3.08c0 .3.2.65.76.54A11.1 11.1 0 0 0 12 .9Z"/></svg>
+          </span>
+          <h3>GitHub</h3>
         </a>
+      </div>
+
+      <div class="card contato-form">
+        <h3>Envie uma <span>mensagem</span></h3>
+        <p>Preencha seus dados. Seu aplicativo de e-mail será aberto com a mensagem pronta para envio.</p>
+        <form class="formulario-contato" id="formulario-contato">
+          <div class="campo-contato">
+            <label for="nome-contato">Nome completo</label>
+            <input id="nome-contato" name="nome" type="text" autocomplete="name" required>
+          </div>
+          <div class="campo-contato">
+            <label for="email-contato">E-mail</label>
+            <input id="email-contato" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="campo-contato">
+            <label for="telefone-contato">Número de telefone</label>
+            <input id="telefone-contato" name="telefone" type="tel" autocomplete="tel" required>
+          </div>
+          <div class="campo-contato mensagem">
+            <label for="mensagem-contato">Mensagem</label>
+            <textarea id="mensagem-contato" name="mensagem" required></textarea>
+          </div>
+          <button class="botao" type="submit">Preparar e-mail</button>
+        </form>
       </div>
     </section>
 
@@ -717,6 +910,22 @@
       botao.addEventListener('click', function () {
         abrirAba(botao.dataset.aba);
       });
+    });
+
+    document.getElementById('formulario-contato').addEventListener('submit', function (evento) {
+      evento.preventDefault();
+      const dados = new FormData(evento.currentTarget);
+      const corpo = [
+        'Nome: ' + dados.get('nome'),
+        'E-mail: ' + dados.get('email'),
+        'Telefone: ' + dados.get('telefone'),
+        '',
+        'Mensagem:',
+        dados.get('mensagem')
+      ].join('\n');
+      const assunto = 'Contato pelo portfólio';
+      window.location.href = 'mailto:Guilherme2008hotmail@gmail.com?subject='
+        + encodeURIComponent(assunto) + '&body=' + encodeURIComponent(corpo);
     });
 
     // abre a aba do endereço (#projetos, por exemplo) ou o início
